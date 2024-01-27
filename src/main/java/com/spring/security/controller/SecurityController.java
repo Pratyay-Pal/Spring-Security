@@ -9,7 +9,12 @@ import java.util.Map;
 public class SecurityController {
 
     @GetMapping("/welcome")
-    public Map<String, String> greeting() {
-        return Map.of("response", "Welcome");
+    public String welcome() {
+        return "Welcome";
+    }
+
+    @GetMapping("/secured")
+    public String secured() {
+        return "Secured Endpoint";
     }
 }
