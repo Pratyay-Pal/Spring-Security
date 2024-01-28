@@ -1,6 +1,5 @@
-package com.spring.security.config;
+package com.spring.security.Config;
 
-import com.spring.security.controller.SecurityController;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +12,6 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.stereotype.Component;
 
@@ -29,10 +27,11 @@ public class WebSecurityConfig {
     @SuppressWarnings("Deprecated")
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         logger.info("Going through securityFilterChain");
-        httpSecurity.authorizeRequests(authorizeRequests ->
+        httpSecurity.csrf().disable()
+                .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/secured").authenticated()
-                                .requestMatchers("/welcome").permitAll()
+                                .requestMatchers("/welcome","/register").permitAll()
                 )
                 .formLogin();
         return httpSecurity.build();
@@ -41,7 +40,7 @@ public class WebSecurityConfig {
 //    @Bean  // UNCOMMENT TO CREATE THE BEAN IF IN MEMORY USER MANAGER IS REQUIRED
     public InMemoryUserDetailsManager userDetailsManager(){
         logger.info("In Memory User Creation in userDetailsManager");
-        UserDetails user_read = User.withDefaultPasswordEncoder() 
+        UserDetails user_read = User.withDefaultPasswordEncoder()
                 .username("read")
                 .password("password")
                 .authorities("read")

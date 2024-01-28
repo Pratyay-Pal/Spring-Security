@@ -1,8 +1,7 @@
-package com.spring.security.config;
+package com.spring.security.Config;
 
-import com.spring.security.entity.custom_users;
-import com.spring.security.jpa.custom_users_dao;
-import com.spring.security.jpa.custom_users_jpa;
+import com.spring.security.Entity.custom_users;
+import com.spring.security.Jpa.custom_users_dao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

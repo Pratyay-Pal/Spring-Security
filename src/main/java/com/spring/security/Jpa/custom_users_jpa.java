@@ -1,6 +1,6 @@
-package com.spring.security.jpa;
+package com.spring.security.Jpa;
 
-import com.spring.security.entity.custom_users;
+import com.spring.security.Entity.custom_users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
