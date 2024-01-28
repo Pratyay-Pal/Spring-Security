@@ -1,5 +1,8 @@
 package com.spring.security.config;
 
+import com.spring.security.controller.SecurityController;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,9 +23,12 @@ import javax.sql.DataSource;
 @Configuration
 public class WebSecurityConfig {
 
+    Logger logger = LogManager.getLogger(WebSecurityConfig.class);
+
     @Bean
     @SuppressWarnings("Deprecated")
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        logger.info("Going through securityFilterChain");
         httpSecurity.authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/secured").authenticated()
@@ -34,6 +40,7 @@ public class WebSecurityConfig {
 
 //    @Bean  // UNCOMMENT TO CREATE THE BEAN IF IN MEMORY USER MANAGER IS REQUIRED
     public InMemoryUserDetailsManager userDetailsManager(){
+        logger.info("In Memory User Creation in userDetailsManager");
         UserDetails user_read = User.withDefaultPasswordEncoder() 
                 .username("read")
                 .password("password")
@@ -53,8 +60,9 @@ public class WebSecurityConfig {
         return new InMemoryUserDetailsManager(user_read,user_write,admin);
     }
 
-    @Bean
+//    @Bean  // UNCOMMENT TO CREATE THE BEAN IF DEFAULT SPRING USER AND AUTHORITIES SCHEMA IS USED
     public UserDetailsService userDetailsService(DataSource dataSource){
+        logger.info("New JDBC DataSource");
         return new JdbcUserDetailsManager(dataSource);
     }
 
