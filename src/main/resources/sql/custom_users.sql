@@ -5,5 +5,6 @@ CREATE TABLE `custom_users` (
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `enabled` tinyint(1) NOT NULL,
   `role` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `email_unique_constraint` (`email`)
 )

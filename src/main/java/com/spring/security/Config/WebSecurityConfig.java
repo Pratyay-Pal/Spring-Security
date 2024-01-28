@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -30,8 +31,8 @@ public class WebSecurityConfig {
         httpSecurity.csrf().disable()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/secured").authenticated()
-                                .requestMatchers("/welcome","/register").permitAll()
+                                .requestMatchers("/securedByLogin").authenticated()
+                                .requestMatchers("/insecure","/registerNewUser").permitAll()
                 )
                 .formLogin();
         return httpSecurity.build();
@@ -40,18 +41,18 @@ public class WebSecurityConfig {
 //    @Bean  // UNCOMMENT TO CREATE THE BEAN IF IN MEMORY USER MANAGER IS REQUIRED
     public InMemoryUserDetailsManager userDetailsManager(){
         logger.info("In Memory User Creation in userDetailsManager");
-        UserDetails user_read = User.withDefaultPasswordEncoder()
+        UserDetails user_read = User.withDefaultPasswordEncoder() //INLINE DECLARATION OF PASSWORD ENCODER
                 .username("read")
                 .password("password")
                 .authorities("read")
                 .build();
 
-        UserDetails admin = User.withUsername("admin") //PASSWORD ENCODER BEAN MUST BE CREATED
+        UserDetails admin = User.withUsername("admin") //PASSWORD ENCODER BEAN MUST BE CREATED SINCE NO INLINE DECLARATION OF ENCODER
                 .password("password")
                 .authorities("admin")
                 .build();
 
-        UserDetails user_write = User.withUsername("write") //PASSWORD ENCODER BEAN MUST BE CREATED
+        UserDetails user_write = User.withUsername("write") //PASSWORD ENCODER BEAN MUST BE CREATED SINCE NO INLINE DECLARATION OF ENCODER
                 .password("password")
                 .authorities("write")
                 .build();
@@ -67,6 +68,7 @@ public class WebSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
+//        return NoOpPasswordEncoder.getInstance(); // UNCOMMENT TO USE DEFAULT UNENCRYPTED PASSWORD ENCODER
+        return new BCryptPasswordEncoder(); // HASHING PASSWORD ENCODER
     }
 }

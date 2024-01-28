@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,13 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class SecurityController {
 
     Logger logger = LogManager.getLogger(SecurityController.class);
-
     @Autowired
     custom_users_dao customUsersDao;
 
-    @GetMapping("/welcome")
+    @GetMapping("/insecure")
     public String welcome() {
-        logger.info("/welcome received");
+        logger.info("/insecure received");
         return "Welcome";
     }
 
@@ -31,9 +31,9 @@ public class SecurityController {
         return "This Endpoint is Secured by Login only";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registerNewUser")
     public HttpStatus register(@RequestBody UserRegistrationRequest userRegistrationRequest) {
-        logger.info("/register received with user details : "+userRegistrationRequest.toString());
+        logger.info("/registerNewUser received with user details : "+userRegistrationRequest.toString());
         customUsersDao.createUser(
                 userRegistrationRequest.getUser_name(),
                 userRegistrationRequest.getPassword(),
