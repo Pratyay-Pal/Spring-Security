@@ -32,7 +32,7 @@ public class custom_users_UserDetailService implements UserDetailsService {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
         List<custom_users> customUsers = customUsersDao.getUsersByEmail(username);
         if (customUsers.isEmpty())
-            throw new UsernameNotFoundException("No Username found by email = " + username);
+            throw new UsernameNotFoundException("No Username found by email : " + username);
         else {
             logger.info("Customer found with details = "+customUsers.get(0).toString());
             userName = customUsers.get(0).getUser_name();
