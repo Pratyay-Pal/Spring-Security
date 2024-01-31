@@ -22,7 +22,7 @@ public class SecurityController {
     @GetMapping("/insecure")
     public String welcome() {
         logger.info("/insecure received");
-        return "Welcome";
+        return "This endpoint is insecure. Can be accessed without login.";
     }
 
     @GetMapping("/securedByLogin")
