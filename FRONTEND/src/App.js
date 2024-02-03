@@ -1,10 +1,10 @@
+import AccessibleEndpoint from './AccessibleEndpoint/AccessibleEndpoint';
 import './App.css';
-import AppContent from './AppContent/AppContent';
 
 function App() {
   return (
     <>
-      <AppContent/>
+      <AccessibleEndpoint/>
     </>
   );
 }

@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -50,7 +52,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/securedByLogin").authenticated()
                                 .requestMatchers("/insecure", "/registerNewUser").permitAll()
                 )
-                .formLogin().and().httpBasic();
+                .formLogin().and().httpBasic().and().exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
         return httpSecurity.build();
     }
 
@@ -86,5 +88,10 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
 //        return NoOpPasswordEncoder.getInstance(); // UNCOMMENT TO USE DEFAULT UNENCRYPTED PASSWORD ENCODER
         return new BCryptPasswordEncoder(); // HASHING PASSWORD ENCODER
+    }
+
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return webSecurity -> webSecurity.ignoring().requestMatchers("/insecure");
     }
 }

@@ -1,6 +1,12 @@
 import './Login.css'
 
-export default function Login({newUserRegistration, loginToApp}) {   
+export default function Login({setUserDetails}) {   
+
+  const loginToApp = () => {
+    setUserDetails(() => {
+      return { user_name: document.getElementById("emailid"), password: document.getElementById("pwd") };
+    });
+  };
 
   return (
     <>
@@ -8,12 +14,12 @@ export default function Login({newUserRegistration, loginToApp}) {
       <form className="form" >
        <p className="form-title">Sign in to your account</p>
         <div className="input-container">
-          <input type="email" placeholder="Enter email"/>
+          <input type="email" id="emailid" placeholder="Enter email"/>
           <span>
           </span>
       </div>
       <div className="input-container">
-          <input type="password" placeholder="Enter password"/>
+          <input type="password" id="pwd" placeholder="Enter password"/>
         </div>
          <button type="button" className="submit" onClick={loginToApp}>
         Sign in
@@ -21,7 +27,7 @@ export default function Login({newUserRegistration, loginToApp}) {
 
       <p className="signup-link">
         No account?
-        <button onClick={newUserRegistration}>Sign up</button>
+        <button>Sign up</button>
       </p>
    </form>
       </div>
