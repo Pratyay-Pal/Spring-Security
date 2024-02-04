@@ -5,6 +5,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.User;
@@ -49,10 +51,10 @@ public class WebSecurityConfig {
                 .csrf().disable()
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("/insecure", "/registerNewUser","/loginSuccess").permitAll()
                                 .requestMatchers("/securedByLogin").authenticated()
-                                .requestMatchers("/insecure", "/registerNewUser").permitAll()
                 )
-                .formLogin().and().httpBasic().and().exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint());
+                .formLogin().and().exceptionHandling().authenticationEntryPoint(new Http403ForbiddenEntryPoint()).and().httpBasic();
         return httpSecurity.build();
     }
 
@@ -88,10 +90,5 @@ public class WebSecurityConfig {
     public PasswordEncoder passwordEncoder() {
 //        return NoOpPasswordEncoder.getInstance(); // UNCOMMENT TO USE DEFAULT UNENCRYPTED PASSWORD ENCODER
         return new BCryptPasswordEncoder(); // HASHING PASSWORD ENCODER
-    }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return webSecurity -> webSecurity.ignoring().requestMatchers("/insecure");
     }
 }

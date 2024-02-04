@@ -31,4 +31,13 @@ public class custom_users_dao_impl implements custom_users_dao {
         customUsersJpa.save(customUser);
         logger.info(user_name+" created in custom_users table with email ID "+email+" having role "+role+" having encrypted password "+encrypted_password);
     }
+
+    @Override
+    public boolean loginSuccess(String user_name, String password) {
+        List<custom_users> customUsers = customUsersJpa.findByEmail(user_name);
+        if(!customUsers.isEmpty())
+            return customUsers.get(0).getEmail().equals(user_name) && passwordEncoder.matches(password, customUsers.get(0).getPassword());
+        else
+            return false;
+    }
 }

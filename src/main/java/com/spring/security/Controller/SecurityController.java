@@ -1,6 +1,7 @@
 package com.spring.security.Controller;
 
 import com.spring.security.Jpa.custom_users_dao;
+import com.spring.security.RequestResponse.UserLogin.LoginSuccessRequest;
 import com.spring.security.RequestResponse.UserRegistration.UserRegistrationRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +29,15 @@ public class SecurityController {
     @GetMapping("/securedByLogin")
     public String securedByLogin() {
         logger.info("/securedByLogin received");
-        return "This Endpoint is Secured by Login only";
+        return "This Endpoint is Secured by Login only. If you can see this, the credentials are correct.";
+    }
+
+    @PostMapping("/loginSuccess")
+    public boolean loginSuccess(@RequestBody LoginSuccessRequest loginSuccessRequest) {
+        logger.info("/loginSuccess received : "+loginSuccessRequest.toString());
+        boolean loginSuccess = customUsersDao.loginSuccess(loginSuccessRequest.getUsername(), loginSuccessRequest.getPassword());
+        logger.info("loginSuccess Result : "+loginSuccess);
+        return loginSuccess;
     }
 
     @PostMapping("/registerNewUser")

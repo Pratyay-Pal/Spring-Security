@@ -6,20 +6,20 @@ import GetResponse from "../GetResponse/GetResponse";
 import Login from "../Login/Login";
 
 export default function AccessibleEndpoint() {
-  const [userDetails, setUserDetails] = useState({});
+  const [userDetails, setUserDetails] = useState({ login: "Not Logged in" }); //LOGIN STATUS. BASICALLY IF THE USER HAS SUCCEEDED THE ENDPOINT IN LOGIN CHECK
   const [cardValue, setCardValue] = useState();
-  const accessEndpoint = (endpoint) => {
-    GetResponse(endpoint, setCardValue, userDetails);
+  const accessEndpoint = (endpoint, secure) => {
+    GetResponse(endpoint, secure, setCardValue, userDetails);
   };
-
   return (
     <>
-    {userDetails.user_name != null ? (
+      {userDetails.user_name != null ? (
         <p
           style={{
             fontFamily: "monospace",
-            fontSize: "large",
-            marginLeft: "100px",
+            fontSize: "xx-large",
+            display: "flex",
+            justifyContent : "center",
             fontStyle: "italic",
           }}
         >
@@ -29,28 +29,32 @@ export default function AccessibleEndpoint() {
         <p
           style={{
             fontFamily: "monospace",
-            fontSize: "large",
-            marginLeft: "100px",
+            fontSize: "xx-large",
+            display: "flex",
+            justifyContent : "center",
             fontStyle: "italic",
           }}
         >
-          Not Logged in
+          {userDetails.login}
         </p>
       )}
-      {cardValue !== "LOGIN REQUIRED" ? (
+      {cardValue !== "LOGIN REQUIRED" ? ( // OPEN LOGIN PAGE IF GET RESPONSE RETURNS LOGIN REQUIRED, OTHERWISE CARD VALUE HAS RESPONSE DATA
         <div className={classes.block}>
           <Card>{cardValue}</Card>
           {endpoints.map((endpoint) => (
             <button
               key={endpoint.id}
-              onClick={() => accessEndpoint(endpoint.value)}
+              onClick={() => accessEndpoint(endpoint.value, endpoint.secure)}
             >
               {endpoint.value}
+              <div className={classes.arrow_wrapper}>
+                <div className={classes.arrow}></div>
+              </div>
             </button>
           ))}
         </div>
       ) : (
-        <Login setUserDetails={setUserDetails} />
+        <Login setUserDetails={setUserDetails} setCardValue={setCardValue} />
       )}
     </>
   );
