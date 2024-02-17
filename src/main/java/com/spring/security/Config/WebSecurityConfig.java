@@ -1,5 +1,6 @@
 package com.spring.security.Config;
 
+import com.spring.security.filter.CheckUserNameFilter;
 import com.spring.security.filter.CsrfCookieFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.logging.log4j.LogManager;
@@ -63,6 +64,7 @@ public class WebSecurityConfig {
                 .csrf((csrf) -> csrf.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler).ignoringRequestMatchers("/loginSuccess")
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(new CheckUserNameFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/insecure", "/registerNewUser", "/loginSuccess").permitAll()
