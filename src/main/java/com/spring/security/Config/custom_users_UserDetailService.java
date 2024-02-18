@@ -34,7 +34,7 @@ public class custom_users_UserDetailService implements UserDetailsService {
         if (customUsers.isEmpty())
             throw new UsernameNotFoundException("No Username found by email : " + username);
         else {
-            logger.info("Customer found with details = "+customUsers.get(0).toString());
+            logger.info("Customer found with details = " + customUsers.get(0).toString());
             userName = customUsers.get(0).getUser_name();
             password = customUsers.get(0).getPassword();
             enabled = customUsers.get(0).isEnabled();

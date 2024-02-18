@@ -3,7 +3,7 @@ package com.spring.security.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "custom_users", uniqueConstraints = @UniqueConstraint(columnNames={"email"}))
+@Table(name = "custom_users", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class custom_users {
 
     @Column(name = "user_id")

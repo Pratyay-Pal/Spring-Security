@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -37,8 +36,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         List<custom_users> customUsers = customUsersDao.getUsersByEmail(authentication.getName());
         if (customUsers.isEmpty())
             throw new UsernameNotFoundException("No Username found by email : " + username);
-        else{
-            if(passwordEncoder.matches(password, customUsers.get(0).getPassword())){
+        else {
+            if (passwordEncoder.matches(password, customUsers.get(0).getPassword())) {
                 logger.info("Password Match. Adding Authorities.");
                 List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
                 grantedAuthorities.add(new SimpleGrantedAuthority(customUsers.get(0).getRole()));

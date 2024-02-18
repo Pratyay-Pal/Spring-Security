@@ -11,12 +11,17 @@ Features present:
 - New user registration through an endpoint.
 - Password encoders using both NoOpPasswordEncoder and BCryptPasswordEncoder. Former is commented out.
 - Custom implementation of AuthenticationProvider(CustomAuthenticationProvider.class) which controls custom logic during user login.
-- Frontend React Project in /FRONTEND.- 
+- Frontend React Project in /FRONTEND. Implemented only for Basic Auth. Other authorization methods are yet to be implemented.
+- Authorization using JSESSIONID(WebSecurityConfig.class). Commented out.
+- Preventing Cross Site Scripting attacks using CSRF token
+- Custom Filter implementations. (filter package)
+- Authorization using JSON Web Tokens (WebSecurityConfig.class, custom JWT generation and validation filters in filter package).
 - Lot of unnecessary Logging of credentials
 
 Endpoints:
 
 - /insecure : Public
 - /registerNewUser : Public
-- /securedByLogin : Accessible after Login
+- /securedByLogin : Accessible after Login, using Basic Auth or JSESSION ID or JWT.
+- /login : Public
 
